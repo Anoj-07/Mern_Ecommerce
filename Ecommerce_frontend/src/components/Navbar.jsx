@@ -1,19 +1,27 @@
 import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
+import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const { navigate, token, setToken, setCartItems } = useContext(ShopContext);
+
+  const logOut = () => {
+    localStorage.removeItem('token');
+    setToken('');
+    // setCartItems([]);
+    navigate('/login');
+  };
 
   return (
     // this is for navbar
-
     // this is for logo
     <div className="flex items-center justify-between py-5 font-medium">
       <Link to={`/`}>
-      <img src={assets.logo} className="w-36" alt="" />
+        <img src={assets.logo} className="w-36" alt="" />
       </Link>
-      
+
 
       {/* This is for home, collection, about, contact section */}
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
@@ -42,23 +50,30 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         <img src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
         <div className="group relative">
-          <Link to={`/login`}>
+
           <img
+            onClick={() => token ? null : navigate('/login')}
             className="w-5 cursor-pointer"
             src={assets.profile_icon}
             alt=""
           />
-          </Link>
 
+          {/* this is for dropdown menu */}
+          {/* if the token is not null then show the dropdown menu */}
+          {token && 
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 ">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">My Profile</p>
-              <p className="cursor-pointer hover:text-black">Order</p>
-              <p className="cursor-pointer hover:text-black">LogOut</p>
+              <p 
+              onClick={() => navigate('/order')}
+              className="cursor-pointer hover:text-black">Order</p>
+              <p
+                onClick={logOut}
+                className="cursor-pointer hover:text-black">LogOut</p>
             </div>
-          </div>
+          </div>}
         </div>
-        
+
         {/* this is for cart icon */}
         <Link to="/cart" className="relative">
           <img
@@ -82,9 +97,8 @@ const Navbar = () => {
 
       {/* this is for menu icon for mobile view */}
       <div
-        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
-          visible ? "w-full" : "w-0"
-        }`}
+        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? "w-full" : "w-0"
+          }`}
       >
         <div className="flex flex-col text-gray-600">
           <div
