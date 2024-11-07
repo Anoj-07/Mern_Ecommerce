@@ -19,8 +19,9 @@ const Navbar = () => {
     // this is for logo
     <div className="flex items-center justify-between py-5 font-medium">
       <Link to={`/`}>
-        <img src={assets.logo} className="w-36" alt="" />
+        <img src='' className="w-36" alt="" />
       </Link>
+      {/* {assets.logo} */}
 
 
       {/* This is for home, collection, about, contact section */}
