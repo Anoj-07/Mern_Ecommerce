@@ -2,11 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
+import RelatedProducts from "../components/RelatedProducts";
 
 const Product = () => {
   const { productId } = useParams();
 
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, SetProductData] = useState(false);
   const [image, setImage] = useState('');
   const [size, setSize] = useState('');
@@ -73,7 +74,9 @@ const Product = () => {
             </div>
           </div>
 
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">ADD CART</button>
+          <button 
+          onClick={()=> addToCart(productData._id, size)}
+          className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">ADD CART</button>
           <hr className="mt-8 sm:w-[4/5]"/>
 
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
@@ -90,7 +93,14 @@ const Product = () => {
           <b className="border px-5 py-3 text-sm">Description</b>
           <p className="border px-5 py-3 text-sm">Review(122)</p>
         </div>
+
+        <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500 ">
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi possimus voluptatum, natus laudantium magni id ducimus, non optio eaque repellendus, ad hic quis rem esse consequuntur consequatur ab nostrum praesentium?</p>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, praesentium autem laboriosam, sed cupiditate facere debitis voluptatibus, similique non quisquam sapiente enim quos iusto? Aliquid accusantium blanditiis saepe? Odit, illum.</p>
+        </div>
       </div>
+      {/* -------------------Display related products -------------------- */}
+      <RelatedProducts category={productData.category} subCategory={productData.subCategory} />
     </div>
     ) : <div className="opacity-0"></div>
 }

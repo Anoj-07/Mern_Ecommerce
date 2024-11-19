@@ -5,7 +5,7 @@ import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {setShowSearch} = useContext(ShopContext);
+  const {setShowSearch, getCartCount} = useContext(ShopContext);
   const { navigate, token, setToken, setCartItems } = useContext(ShopContext);
 
   const logOut = () => {
@@ -86,7 +86,7 @@ const Navbar = () => {
             alt=""
           />
           <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-            12
+            {getCartCount()}
           </p>
         </Link>
 
