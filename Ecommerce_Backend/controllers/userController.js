@@ -22,18 +22,18 @@ const loginUser = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    
+
     if (isMatch) {
-        const token = createToken(user._id);
-       res.json({
+      const token = createToken(user._id);
+      res.json({
         success: true,
-        token
+        token,
       });
-    }else{
-         res.json({
-          success: false,
-          message: "Incorrect password",
-        });
+    } else {
+      res.json({
+        success: false,
+        message: "Incorrect password",
+      });
     }
   } catch (err) {
     console.error(err);
@@ -95,8 +95,27 @@ const registerUser = async (req, res) => {
   }
 };
 
-//Route for Admin login
+//---------------------------Route for Admin login-------------------------------
 
-const adminlogin = async (req, res) => {};
+const adminlogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Invalid Credentials" });
+    }
+    
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 export { loginUser, registerUser, adminlogin };
