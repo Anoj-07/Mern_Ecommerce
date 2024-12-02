@@ -12,23 +12,26 @@ const Cart = () => {
   // const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const tempData = [];
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        if (cartItems[items][item] > 0) {
-          tempData.push({
-            _id: items,
-            size: item,
-            quantity: cartItems[items][item],
-            // price: products[items].price,
-            // currency: currency,
-            // name: products[items].name
-          })
+    if (products.length > 0) {
+      const tempData = [];
+      for (const items in cartItems) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            tempData.push({
+              _id: items,
+              size: item,
+              quantity: cartItems[items][item],
+              // price: products[items].price,
+              // currency: currency,
+              // name: products[items].name
+            })
+          }
         }
       }
+      setCartData(tempData);
     }
-    setCartData(tempData);
-  }, [cartItems])
+
+  }, [cartItems, products])
 
   return (
     <div className="border-t pt-14">
@@ -79,9 +82,9 @@ const Cart = () => {
           <CartTotal />
           {/* Checkout Button */}
           <div className="w-full text-end">
-            <button 
-            onClick={()=> navigate('/place-order')}
-            className="bg-black text-white texxt-sm my-8 px-8 py-3">
+            <button
+              onClick={() => navigate('/place-order')}
+              className="bg-black text-white texxt-sm my-8 px-8 py-3">
               Proceed to checkout
             </button>
           </div>
