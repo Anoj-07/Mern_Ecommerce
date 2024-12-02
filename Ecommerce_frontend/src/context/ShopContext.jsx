@@ -18,7 +18,7 @@ const ShopContextProvider = ({ children }) => {
     //Add to cart page
     const addToCart = async (itemId, size) => {
 
-        if(!size){
+        if (!size) {
             toast.error("select Product size");
             return;
         }
@@ -32,15 +32,15 @@ const ShopContextProvider = ({ children }) => {
                 cartData[itemId][size] = 1;
             }
         }
-        else{
+        else {
             cartData[itemId] = {};
             cartData[itemId][size] = 1;
         }
         setCartitems(cartData);
 
-        if(token){
+        if (token) {
             try {
-                await axios.post(backendUrl + '/api/cart/add', {itemId, size}, {headers:{token}});
+                await axios.post(backendUrl + '/api/cart/add', { itemId, size }, { headers: { token } });
             } catch (error) {
                 console.log(error);
                 toast.error(error.message);
@@ -50,18 +50,18 @@ const ShopContextProvider = ({ children }) => {
     }
 
     //Get cart items count(wishlist)
-    const getCartCount = () =>{
+    const getCartCount = () => {
         let count = 0;
-        for(const items in cartItems){
-            for(const item in cartItems[items]){
+        for (const items in cartItems) {
+            for (const item in cartItems[items]) {
                 try {
-                    if(cartItems[items][item] > 0){
+                    if (cartItems[items][item] > 0) {
                         count += cartItems[items][item];
                     }
-                    
+
                 } catch (error) {
                     console.log(error);
-                toast.error(error.message);
+                    toast.error(error.message);
                 }
             }
         }
@@ -69,15 +69,15 @@ const ShopContextProvider = ({ children }) => {
     }
 
     //update cart items
-    const updateQuantity = async(itemId, size, quantity)=>{
+    const updateQuantity = async (itemId, size, quantity) => {
         let cartData = structuredClone(cartItems);
-        
+
         cartData[itemId][size] = quantity;
         setCartitems(cartData);
 
-        if(token){
+        if (token) {
             try {
-                await axios.post(backendUrl + '/api/cart/update', {itemId, size, quantity}, {headers:{token}});
+                await axios.post(backendUrl + '/api/cart/update', { itemId, size, quantity }, { headers: { token } });
             } catch (error) {
                 console.log(error);
                 toast.error(error.message);
@@ -86,25 +86,25 @@ const ShopContextProvider = ({ children }) => {
     }
 
     //get cart amount
-    const getcartAmount = () =>{
+    const getcartAmount = () => {
         let TotalAmount = 0;
-        for(const items in cartItems){
+        for (const items in cartItems) {
             let itemInfo = products.find((product) => product._id === items);
-            for(const item in cartItems[items]){
+            for (const item in cartItems[items]) {
                 try {
-                    if(cartItems[items][item] > 0){
+                    if (cartItems[items][item] > 0) {
                         TotalAmount += itemInfo.price * cartItems[items][item];
                     }
                 } catch (error) {
-                    
+
                 }
             }
-            
+
         }
         return TotalAmount;
     }
 
-   
+
 
     // -----------------Backend---------------------------------------------
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -122,13 +122,13 @@ const ShopContextProvider = ({ children }) => {
     }, []);
 
     //-------------------get products---------------
-    const getProductsData = async () =>{
+    const getProductsData = async () => {
         try {
             const response = await axios.get(backendUrl + "/api/product/list");
-            if(response.data.success){
+            if (response.data.success) {
                 setProducts(response.data.products);
             }
-            else{
+            else {
                 toast.error(response.data.message);
             }
         } catch (error) {
@@ -137,11 +137,11 @@ const ShopContextProvider = ({ children }) => {
         }
     }
 
-    
-    const getuserCart = async(token) =>{
+
+    const getuserCart = async (token) => {
         try {
-            const response = await axios.post(backendUrl + '/api/cart/get',{}, {headers:{token}});
-            if(response.data.success){
+            const response = await axios.post(backendUrl + '/api/cart/get', {}, { headers: { token } });
+            if (response.data.success) {
                 setCartitems(response.data.cartData);
             }
         } catch (error) {
@@ -161,8 +161,9 @@ const ShopContextProvider = ({ children }) => {
         search, setSearch, showSearch, setShowSearch,
         cartItems, addToCart,
         getCartCount,
-        updateQuantity,
         getcartAmount,
+        setCartitems,
+        updateQuantity,
         navigate, backendUrl,
         setToken, token
     }
