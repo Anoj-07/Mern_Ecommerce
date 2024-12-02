@@ -84,7 +84,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subcategory, products, search, showSearch]);
+  }, [category, subcategory, products, search, showSearch, products]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-20 border-t-2">
