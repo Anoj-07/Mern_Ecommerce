@@ -19,6 +19,8 @@ connectCloudinary
 app.use(express.json());
 app.use(cors());
 
+
+
 //Api endpoints
 // --------> userController.js <--------
 app.use('/api/user',userRouter);
