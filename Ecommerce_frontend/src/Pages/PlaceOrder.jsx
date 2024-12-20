@@ -40,8 +40,19 @@ const PlaceOrder = () => {
       receipt: order.receipt,
       handler: async (response) => {
         console.log(response);
-      }
+        try {
+          
+          const {data} = await axios.post(backendUrl + '/api/order/verifyRazorpay', response, {headers:{token}});
+          if(data.success){
+            navigate('/orders');
+            setCartitems({});
+          }
 
+        } catch (error) {
+          console.log(error);
+          toast.error(error.message);
+        }
+      }
     }
     const rzp = new window.Razorpay(options);
     rzp.open();
@@ -144,12 +155,13 @@ const PlaceOrder = () => {
         <div className="mt-12">
           <Title text1={'PAYMENT'} text2={'METHOD'} />
           {/* ------------------payment method ------------------ */}
+
           <div className="flex gap-3 flex-col lg:flex-row">
-            <div onClick={() => setMethod('stripe')}
+            {/* <div onClick={() => setMethod('stripe')}
               className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
               <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-300' : ''}`}></p>
               <img className="h-5 mx-5" src={assets.stripe_logo} alt="" />
-            </div>
+            </div> */}
 
             <div onClick={() => setMethod('razorpay')}
               className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
