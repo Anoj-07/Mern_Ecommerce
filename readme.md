@@ -125,8 +125,7 @@ This project is licensed under the MIT License.
 
 ## 📞 Contact
 
-- 📧 Email: support@yourwebsite.com
-- 🌐 Website: xyz.com
+- 📧 Email: anojrawal03.adtu@gmail.com
 
 ---
 
